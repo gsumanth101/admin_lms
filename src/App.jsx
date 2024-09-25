@@ -17,7 +17,7 @@ import Adduniversity from './pages/Adduniversity';
 import Manageuniversity from './pages/ManageUniversity';
 import Addcourse from './pages/Addcourse';
 import Managecourses from './pages/Managecourses';
-import BulkUpload from './pages/BulkUpload';
+import BulkUpload from './pages/Bulkupload';
 import Createuser from './pages/Createuser';
 import Createspoc from './pages/Createspoc';
 import Managespoc from './pages/Managespoc';
