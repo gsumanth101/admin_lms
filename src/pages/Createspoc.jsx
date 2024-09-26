@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // For API requests
-
+import { getDataFromBackend, postDataToBackend } from '../api/api'; // Import API functions
+import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 
@@ -13,20 +14,22 @@ function CreateSpoc() {
     universityId: ''
   });
   const [universities, setUniversities] = useState([]);
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Spinner state
 
   // Fetch universities on component mount
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/admin/org');
-        if (response.data && Array.isArray(response.data.universities)) {
-          setUniversities(response.data.universities);
+        const response = await getDataFromBackend('/org');
+        if (response && Array.isArray(response.universities)) {
+          setUniversities(response.universities);
         } else {
-          console.error('Unexpected response format:', response.data);
+          console.error('Unexpected response format:', response);
+          toast.error('Failed to load universities.');
         }
       } catch (error) {
         console.error('Error fetching universities:', error);
+        toast.error('Error fetching universities.');
       }
     };
 
@@ -45,21 +48,30 @@ function CreateSpoc() {
     const { name, email, phone, universityId } = formData;
 
     if (!name || !email || !phone || !universityId) {
-      setMessage('Please fill in all required fields.');
+      toast.error('Please fill in all required fields.');
       return;
     }
 
+    setLoading(true); // Show spinner
     try {
-      const response = await axios.post('http://localhost:4000/admin/spocs', formData);
-      setMessage(response.data.message);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        universityId: ''
-      }); // Clear form
+      const response = await postDataToBackend('/spocs', formData);
+      if (response && response.message) {
+        toast.success(response.message);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          universityId: ''
+        }); // Clear form
+      } else {
+        console.error('Unexpected response format:', response);
+        toast.error('Failed to create SPOC.');
+      }
     } catch (error) {
-      setMessage('Error creating SPOC: ' + (error.response?.data?.message || error.message));
+      console.error('Error creating SPOC:', error);
+      toast.error('Error creating SPOC: ' + (error.response?.data?.message || error.message));
+    } finally {
+      setLoading(false); // Hide spinner
     }
   };
 
@@ -137,13 +149,15 @@ function CreateSpoc() {
                   <button
                     type="submit"
                     className="btn bg-gray-900 text-white hover:bg-gray-700 w-full py-2 rounded-md"
+                    disabled={loading} // Disable button while loading
                   >
-                    Create SPOC
+                    {loading ? 'Creating...' : 'Create SPOC'}
                   </button>
                 </form>
 
-                {/* Message */}
-                {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
+                {/* Toast Container */}
+                <ToastContainer />
+
               </div>
             </div>
           </div>

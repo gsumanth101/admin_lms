@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // For API requests
-
+import { getDataFromBackend, postDataToBackend } from '../api/api'; // Import API functions
+import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 
@@ -12,20 +13,22 @@ function Addcourse() {
     universityIds: []
   });
   const [universities, setUniversities] = useState([]);
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Spinner state
 
   // Fetch universities on component mount
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/admin/org');
-        if (response.data && Array.isArray(response.data.universities)) {
-          setUniversities(response.data.universities);
+        const response = await getDataFromBackend('/org');
+        if (response && Array.isArray(response.universities)) {
+          setUniversities(response.universities);
         } else {
-          console.error('Unexpected response format:', response.data);
+          console.error('Unexpected response format:', response);
+          toast.error('Failed to load universities.');
         }
       } catch (error) {
         console.error('Error fetching universities:', error);
+        toast.error('Error fetching universities.');
       }
     };
 
@@ -33,25 +36,28 @@ function Addcourse() {
   }, []);
 
   // Handle form changes
-const handleChange = (e) => {
-  const { name, value, selectedOptions } = e.target;
-  if (name === 'universityIds') {
-    const selectedValues = Array.from(selectedOptions, option => option.value);
-    setFormData({ ...formData, [name]: selectedValues });
-  } else {
-    setFormData({ ...formData, [name]: value });
-  }
-};
+  const handleChange = (e) => {
+    const { name, value, selectedOptions } = e.target;
+    if (name === 'universityIds') {
+      const selectedValues = Array.from(selectedOptions, option => option.value);
+      setFormData({ ...formData, [name]: selectedValues });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Show spinner
     try {
-      const response = await axios.post('http://localhost:4000/admin/add_course', formData);
-      setMessage(response.data.message);
+      const response = await postDataToBackend('/add_course', formData);
+      toast.success(response.message);
       setFormData({ name: '', description: '', universityIds: [] }); // Clear form
     } catch (error) {
-      setMessage('Error creating course: ' + (error.response?.data?.message || error.message));
+      toast.error('Error creating course: ' + (error.response?.data?.message || error.message));
+    } finally {
+      setLoading(false); // Hide spinner
     }
   };
 
@@ -95,34 +101,36 @@ const handleChange = (e) => {
                     />
                   </div>
 
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-2">Universities</label>
-                  <select
-                    name="universityIds"
-                    value={formData.universityIds}
-                    onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded-md"
-                    multiple
-                    required
-                  >
-                    {universities.map((university) => (
-                      <option key={university._id} value={university._id}>
-                        {university.long_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Universities</label>
+                    <select
+                      name="universityIds"
+                      value={formData.universityIds}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                      multiple
+                      required
+                    >
+                      {universities.map((university) => (
+                        <option key={university._id} value={university._id}>
+                          {university.long_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                   <button
                     type="submit"
                     className="btn bg-gray-900 text-white hover:bg-gray-700 w-full py-2 rounded-md"
+                    disabled={loading} // Disable button while loading
                   >
-                    Create Course
+                    {loading ? 'Creating...' : 'Create Course'}
                   </button>
                 </form>
 
-                {/* Message */}
-                {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
+                {/* Toast Container */}
+                <ToastContainer />
+
               </div>
             </div>
           </div>

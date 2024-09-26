@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getDataFromBackend } from '../../api/api';
 
 function DashboardCard03() {
   const [userCount, setUserCount] = useState(0);
@@ -7,11 +7,11 @@ function DashboardCard03() {
   useEffect(() => {
     const fetchUserCount = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/admin/users/count');
-        if (response.data && typeof response.data.count === 'number') {
-          setUserCount(response.data.count);
+        const response = await getDataFromBackend('/users/count');
+        if (response && typeof response.count === 'number') {
+          setUserCount(response.count);
         } else {
-          console.error('Unexpected response format:', response.data);
+          console.error('Unexpected response format:', response);
         }
       } catch (error) {
         console.error('Error fetching user count:', error);

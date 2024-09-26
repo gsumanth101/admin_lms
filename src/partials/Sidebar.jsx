@@ -455,7 +455,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                               <path d="M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12Zm-4 6a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" />
                             </svg>
                             <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                             Users
+                             Students
                             </span>
                           </div>
                           {/* Icon */}
@@ -501,7 +501,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                               }
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                               Crete User
+                               Crete Student
                               </span>
                             </NavLink>
                           </li>

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getDataFromBackend } from '../../api/api';
 
-function DashboardCard07() {
+function Coursedashboard() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/admin/courses');
-        if (response.data && Array.isArray(response.data.courses)) {
-          setCourses(response.data.courses);
+        const response = await getDataFromBackend('/courses');
+        if (response && Array.isArray(response.courses)) {
+          setCourses(response.courses);
         } else {
-          console.error('Unexpected response format:', response.data);
+          console.error('Unexpected response format:', response);
         }
       } catch (error) {
         console.error('Error fetching courses:', error);
@@ -20,7 +20,6 @@ function DashboardCard07() {
 
     fetchCourses();
   }, []);
-
   return (
     <div className="col-span-full xl:col-span-10 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
       <header className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
@@ -73,4 +72,4 @@ function DashboardCard07() {
   );
 }
 
-export default DashboardCard07;
+export default Coursedashboard;

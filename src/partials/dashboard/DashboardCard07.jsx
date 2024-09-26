@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getDataFromBackend } from '../../api/api';
 
 function DashboardCard07() {
   const [universities, setUniversities] = useState([]);
@@ -7,11 +7,11 @@ function DashboardCard07() {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/admin/org');
-        if (response.data && Array.isArray(response.data.universities)) {
-          setUniversities(response.data.universities);
+        const response = await getDataFromBackend('/org');
+        if (response && Array.isArray(response.universities)) {
+          setUniversities(response.universities);
         } else {
-          console.error('Unexpected response format:', response.data);
+          console.error('Unexpected response format:', response);
         }
       } catch (error) {
         console.error('Error fetching universities:', error);
