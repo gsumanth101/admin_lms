@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // export const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'https://api.phemesoft.com/admin';
-export const BASE_URL ='http://api.phemesoft.com/admin';
+export const BASE_URL ='https://api.phemesoft.com/admin';
 
 // Function to get data from the backend
 export const getDataFromBackend = async (endpoint) => {
