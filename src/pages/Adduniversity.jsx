@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // For API requests
-
+import { postDataToBackend } from '../api/api'; // Import API function
+import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
-import FilterButton from '../components/DropdownFilter';
-import Datepicker from '../components/Datepicker';
-// Dashboard cards
-// import DashboardCard01 from '../partials/dashboard/DashboardCard01';
-// import DashboardCard02 from '../partials/dashboard/DashboardCard02';
-// Other cards...
 
 function Adduniversity() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,8 +14,7 @@ function Adduniversity() {
     country: ''
   });
 
-  // State to store success or error messages
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Spinner state
 
   // Handle form changes
   const handleChange = (e) => {
@@ -30,12 +24,15 @@ function Adduniversity() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Show spinner
     try {
-      const response = await axios.post('http://localhost:4000/admin/add_org', formData);
-      setMessage(response.data.message);
+      const response = await postDataToBackend('/add_org', formData);
+      toast.success(response.message);
       setFormData({ long_name: '', short_name: '', location: '', country: '' }); // Clear form
     } catch (error) {
-      setMessage('Error creating university: ' + (error.response?.data?.message || error.message));
+      toast.error('Error creating university: ' + (error.response?.data?.message || error.message));
+    } finally {
+      setLoading(false); // Hide spinner
     }
   };
 
@@ -51,9 +48,6 @@ function Adduniversity() {
 
         <main className="grow flex items-center justify-center">
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-4xl mx-auto">
-            {/* Dashboard actions */}
-
-
             {/* Form Card */}
             <div className="flex items-center justify-center">
               <div className="col-span-12 xl:col-span-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full">
@@ -110,13 +104,15 @@ function Adduniversity() {
                   <button
                     type="submit"
                     className="btn bg-gray-900 text-white hover:bg-gray-700 w-full py-2 rounded-md"
+                    disabled={loading} // Disable button while loading
                   >
-                    Create University
+                    {loading ? 'Creating...' : 'Create University'}
                   </button>
                 </form>
 
-                {/* Message */}
-                {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
+                {/* Toast Container */}
+                <ToastContainer />
+
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // For API requests
+import { getDataFromBackend, postDataToBackend } from '../api/api'; // Import API functions
 
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
@@ -24,11 +24,11 @@ function CreateUser() {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/admin/org');
-        if (response.data && Array.isArray(response.data.universities)) {
-          setUniversities(response.data.universities);
+        const response = await getDataFromBackend('/org');
+        if (response && Array.isArray(response.universities)) {
+          setUniversities(response.universities);
         } else {
-          console.error('Unexpected response format:', response.data);
+          console.error('Unexpected response format:', response);
         }
       } catch (error) {
         console.error('Error fetching universities:', error);
@@ -55,8 +55,8 @@ function CreateUser() {
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/admin/users', formData);
-      setMessage(response.data.message);
+      const response = await postDataToBackend('/users', formData);
+      setMessage(response.message);
       setFormData({
         regd_no: '',
         name: '',

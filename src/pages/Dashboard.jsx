@@ -74,7 +74,9 @@ function Dashboard() {
               {/* Bar chart (Direct vs Indirect) */}
 
 
-              <DashboardCard07 />
+              <div className="col-span-full xl:col-span-12">
+                <DashboardCard07 />
+              </div>
 
               
             </div>

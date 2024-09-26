@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // For API requests
-
+import { getDataFromBackend, postDataToBackend } from '../api/api'; // Import API functions
+import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 
@@ -9,17 +10,17 @@ function Bulkupload() {
   const [file, setFile] = useState(null);
   const [universityId, setUniversityId] = useState('');
   const [universities, setUniversities] = useState([]);
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Spinner state
 
   // Fetch universities on component mount
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/admin/org');
-        if (response.data && Array.isArray(response.data.universities)) {
-          setUniversities(response.data.universities);
+        const response = await getDataFromBackend('/org');
+        if (response && Array.isArray(response.universities)) {
+          setUniversities(response.universities);
         } else {
-          console.error('Unexpected response format:', response.data);
+          console.error('Unexpected response format:', response);
         }
       } catch (error) {
         console.error('Error fetching universities:', error);
@@ -43,7 +44,7 @@ function Bulkupload() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file || !universityId) {
-      setMessage('Please select a file and a university.');
+      toast.error('Please select a file and a university.');
       return;
     }
 
@@ -51,15 +52,18 @@ function Bulkupload() {
     formData.append('file', file);
     formData.append('universityId', universityId);
 
+    setLoading(true); // Show spinner
     try {
-      const response = await axios.post('http://localhost:4000/admin/upload-users', formData, {
+      const response = await postDataToBackend('/upload-users', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      setMessage(response.data.message);
+      toast.success(response.message);
     } catch (error) {
-      setMessage('Error uploading users: ' + (error.response?.data?.message || error.message));
+      toast.error('Error uploading users: ' + (error.response?.data?.message || error.message));
+    } finally {
+      setLoading(false); // Hide spinner
     }
   };
 
@@ -110,13 +114,15 @@ function Bulkupload() {
                   <button
                     type="submit"
                     className="btn bg-gray-900 text-white hover:bg-gray-700 w-full py-2 rounded-md"
+                    disabled={loading} // Disable button while loading
                   >
-                    Upload Users
+                    {loading ? 'Uploading...' : 'Upload Users'}
                   </button>
                 </form>
 
-                {/* Message */}
-                {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
+                {/* Toast Container */}
+                <ToastContainer />
+
               </div>
             </div>
           </div>
