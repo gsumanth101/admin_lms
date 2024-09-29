@@ -38,18 +38,18 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Login />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
-        <Route path="/add_university" element={<ProtectedRoute element={Adduniversity} />} />
-        <Route path="/manage_university" element={<ProtectedRoute element={Manageuniversity} />} />
-        <Route path="/add_course" element={<ProtectedRoute element={Addcourse} />} />
-        <Route path="/courses/:id" element={<ProtectedRoute element={CourseDetails} />} />
-        <Route path="/manage_course" element={<ProtectedRoute element={Managecourses} />} />
-        <Route path="/upload_users" element={<ProtectedRoute element={BulkUpload} />} />
-        <Route path="/create_user" element={<ProtectedRoute element={Createuser} />} />
-        <Route path="/create_spoc" element={<ProtectedRoute element={Createspoc} />} />
-        <Route path="/manage_spoc" element={<ProtectedRoute element={Managespoc} />} />
+        <Route exact path="/admin" element={<Login />} />
+        <Route exact path="/admin/login" element={<Login />} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute element={Dashboard} />} />
+        <Route path="/admin/add_university" element={<ProtectedRoute element={Adduniversity} />} />
+        <Route path="/admin/manage_university" element={<ProtectedRoute element={Manageuniversity} />} />
+        <Route path="/admin/add_course" element={<ProtectedRoute element={Addcourse} />} />
+        <Route path="/admin/courses/:id" element={<ProtectedRoute element={CourseDetails} />} />
+        <Route path="/admin/manage_course" element={<ProtectedRoute element={Managecourses} />} />
+        <Route path="/admin/upload_users" element={<ProtectedRoute element={BulkUpload} />} />
+        <Route path="/admin/create_user" element={<ProtectedRoute element={Createuser} />} />
+        <Route path="/admin/create_spoc" element={<ProtectedRoute element={Createspoc} />} />
+        <Route path="/admin/manage_spoc" element={<ProtectedRoute element={Managespoc} />} />
         
       </Routes>
     </>

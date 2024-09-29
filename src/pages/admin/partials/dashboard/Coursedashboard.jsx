@@ -33,7 +33,7 @@ function Coursedashboard() {
   };
 
   const handleViewClick = (courseId) => {
-    navigate(`/courses/${courseId}`);
+    navigate(`/admin/courses/${courseId}`);
   };
 
   return (
