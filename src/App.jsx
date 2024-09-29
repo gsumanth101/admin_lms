@@ -11,16 +11,17 @@ import './charts/ChartjsConfig';
 import ProtectedRoute from './ProtectedRoute';
 
 // Import pages
-import Dashboard from './pages/Dashboard';
-import Login from './pages/Authpage';
-import Adduniversity from './pages/Adduniversity';
-import Manageuniversity from './pages/ManageUniversity';
-import Addcourse from './pages/Addcourse';
-import Managecourses from './pages/Managecourses';
-import BulkUpload from './pages/Bulkupload';
-import Createuser from './pages/Createuser';
-import Createspoc from './pages/Createspoc';
-import Managespoc from './pages/Managespoc';
+import Dashboard from './pages/admin/Dashboard';
+import Login from './pages/admin/Authpage';
+import Adduniversity from './pages/admin/Adduniversity';
+import Manageuniversity from './pages/admin/ManageUniversity';
+import Addcourse from './pages/admin/Addcourse';
+import Managecourses from './pages/admin/Managecourses';
+import BulkUpload from './pages/admin/Bulkupload';
+import Createuser from './pages/admin/Createuser';
+import Createspoc from './pages/admin/Createspoc';
+import Managespoc from './pages/admin/Managespoc';
+import CourseDetails from './pages/admin/MapCourses';
 
 
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/add_university" element={<ProtectedRoute element={Adduniversity} />} />
         <Route path="/manage_university" element={<ProtectedRoute element={Manageuniversity} />} />
         <Route path="/add_course" element={<ProtectedRoute element={Addcourse} />} />
+        <Route path="/courses/:id" element={<ProtectedRoute element={CourseDetails} />} />
         <Route path="/manage_course" element={<ProtectedRoute element={Managecourses} />} />
         <Route path="/upload_users" element={<ProtectedRoute element={BulkUpload} />} />
         <Route path="/create_user" element={<ProtectedRoute element={Createuser} />} />

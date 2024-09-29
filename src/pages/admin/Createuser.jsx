@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { getDataFromBackend, postDataToBackend } from '../api/api'; // Import API functions
-import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
-import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
+import { getDataFromBackend, postDataToBackend } from '../../api/api'; // Import API functions
 
-function CreateSpoc() {
+import Sidebar from './partials/Sidebar';
+import Header from './partials/Header';
+
+function CreateUser() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formData, setFormData] = useState({
+    regd_no: '',
     name: '',
-    email: '',
-    phone: '',
+    mailid: '',
+    section: '',
+    stream: '',
+    year: '',
+    dept: '',
+    password: '',
     universityId: ''
   });
   const [universities, setUniversities] = useState([]);
-  const [loading, setLoading] = useState(false); // Spinner state
+  const [message, setMessage] = useState('');
 
   // Fetch universities on component mount
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await getDataFromBackend('/org');
+        const response = await getDataFromBackend('admin/org');
         if (response && Array.isArray(response.universities)) {
           setUniversities(response.universities);
         } else {
           console.error('Unexpected response format:', response);
-          toast.error('Failed to load universities.');
         }
       } catch (error) {
         console.error('Error fetching universities:', error);
-        toast.error('Error fetching universities.');
       }
     };
 
@@ -45,33 +47,29 @@ function CreateSpoc() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, phone, universityId } = formData;
+    const { regd_no, name, mailid, section, stream, year, dept, password, universityId } = formData;
 
-    if (!name || !email || !phone || !universityId) {
-      toast.error('Please fill in all required fields.');
+    if (!regd_no || !name || !mailid || !section || !stream || !year || !dept || !password || !universityId) {
+      setMessage('Please fill in all required fields.');
       return;
     }
 
-    setLoading(true); // Show spinner
     try {
-      const response = await postDataToBackend('/spocs', formData);
-      if (response && response.message) {
-        toast.success(response.message);
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          universityId: ''
-        }); // Clear form
-      } else {
-        console.error('Unexpected response format:', response);
-        toast.error('Failed to create SPOC.');
-      }
+      const response = await postDataToBackend('/users', formData);
+      setMessage(response.message);
+      setFormData({
+        regd_no: '',
+        name: '',
+        mailid: '',
+        section: '',
+        stream: '',
+        year: '',
+        dept: '',
+        password: '',
+        universityId: ''
+      }); // Clear form
     } catch (error) {
-      console.error('Error creating SPOC:', error);
-      toast.error('Error creating SPOC: ' + (error.response?.data?.message || error.message));
-    } finally {
-      setLoading(false); // Hide spinner
+      setMessage('Error creating user: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -90,8 +88,20 @@ function CreateSpoc() {
             {/* Form Card */}
             <div className="flex items-center justify-center">
               <div className="col-span-12 xl:col-span-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full h-96 overflow-y-auto">
-                <h2 className="text-xl font-bold mb-4">Create SPOC</h2>
+                <h2 className="text-xl font-bold mb-4">Create User</h2>
                 <form onSubmit={handleSubmit}>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Registration Number</label>
+                    <input
+                      type="text"
+                      name="regd_no"
+                      value={formData.regd_no}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+
                   <div className="mb-4">
                     <label className="block text-sm font-medium mb-2">Name</label>
                     <input
@@ -108,8 +118,8 @@ function CreateSpoc() {
                     <label className="block text-sm font-medium mb-2">Email</label>
                     <input
                       type="email"
-                      name="email"
-                      value={formData.email}
+                      name="mailid"
+                      value={formData.mailid}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded-md"
                       required
@@ -117,11 +127,59 @@ function CreateSpoc() {
                   </div>
 
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Phone</label>
+                    <label className="block text-sm font-medium mb-2">Section</label>
                     <input
                       type="text"
-                      name="phone"
-                      value={formData.phone}
+                      name="section"
+                      value={formData.section}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Stream</label>
+                    <input
+                      type="text"
+                      name="stream"
+                      value={formData.stream}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Year</label>
+                    <input
+                      type="text"
+                      name="year"
+                      value={formData.year}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Department</label>
+                    <input
+                      type="text"
+                      name="dept"
+                      value={formData.dept}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded-md"
                       required
@@ -149,15 +207,13 @@ function CreateSpoc() {
                   <button
                     type="submit"
                     className="btn bg-gray-900 text-white hover:bg-gray-700 w-full py-2 rounded-md"
-                    disabled={loading} // Disable button while loading
                   >
-                    {loading ? 'Creating...' : 'Create SPOC'}
+                    Create User
                   </button>
                 </form>
 
-                {/* Toast Container */}
-                <ToastContainer />
-
+                {/* Message */}
+                {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
               </div>
             </div>
           </div>
@@ -167,4 +223,4 @@ function CreateSpoc() {
   );
 }
 
-export default CreateSpoc;
+export default CreateUser;

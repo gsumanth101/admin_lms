@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { getDataFromBackend, postDataToBackend } from '../api/api'; // Import API functions
+import { getDataFromBackend, postDataToBackend } from '../../api/api'; // Import API functions
 import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
+import Sidebar from './partials/Sidebar';
+import Header from './partials/Header';
 
-function Bulkupload() {
+function Addcourse() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [file, setFile] = useState(null);
-  const [universityId, setUniversityId] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    universityIds: []
+  });
   const [universities, setUniversities] = useState([]);
   const [loading, setLoading] = useState(false); // Spinner state
 
@@ -16,52 +19,43 @@ function Bulkupload() {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await getDataFromBackend('/org');
+        const response = await getDataFromBackend('admin/org');
         if (response && Array.isArray(response.universities)) {
           setUniversities(response.universities);
         } else {
           console.error('Unexpected response format:', response);
+          toast.error('Failed to load universities.');
         }
       } catch (error) {
         console.error('Error fetching universities:', error);
+        toast.error('Error fetching universities.');
       }
     };
 
     fetchUniversities();
   }, []);
 
-  // Handle file change
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  // Handle university change
-  const handleUniversityChange = (e) => {
-    setUniversityId(e.target.value);
+  // Handle form changes
+  const handleChange = (e) => {
+    const { name, value, selectedOptions } = e.target;
+    if (name === 'universityIds') {
+      const selectedValues = Array.from(selectedOptions, option => option.value);
+      setFormData({ ...formData, [name]: selectedValues });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file || !universityId) {
-      toast.error('Please select a file and a university.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('universityId', universityId);
-
     setLoading(true); // Show spinner
     try {
-      const response = await postDataToBackend('/upload-users', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      const response = await postDataToBackend('admin/add_course', formData);
       toast.success(response.message);
+      setFormData({ name: '', description: '', universityIds: [] }); // Clear form
     } catch (error) {
-      toast.error('Error uploading users: ' + (error.response?.data?.message || error.message));
+      toast.error('Error creating course: ' + (error.response?.data?.message || error.message));
     } finally {
       setLoading(false); // Hide spinner
     }
@@ -82,41 +76,55 @@ function Bulkupload() {
             {/* Form Card */}
             <div className="flex items-center justify-center">
               <div className="col-span-12 xl:col-span-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full">
-                <h2 className="text-xl font-bold mb-4">Bulk Upload Users</h2>
+                <h2 className="text-xl font-bold mb-4">Create Course</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Select File</label>
+                    <label className="block text-sm font-medium mb-2">Course Name</label>
                     <input
-                      type="file"
-                      onChange={handleFileChange}
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded-md"
                       required
                     />
                   </div>
 
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Select University</label>
-                    <select
-                      value={universityId}
-                      onChange={handleUniversityChange}
+                    <label className="block text-sm font-medium mb-2">Description</label>
+                    <textarea
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded-md"
                       required
+                    />
+                  </div>
+
+                  {/* <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Universities</label>
+                    <select
+                      name="universityIds"
+                      value={formData.universityIds}
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                      multiple
+                      required
                     >
-                      <option value="">Select a university</option>
                       {universities.map((university) => (
                         <option key={university._id} value={university._id}>
                           {university.long_name}
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
 
                   <button
                     type="submit"
                     className="btn bg-gray-900 text-white hover:bg-gray-700 w-full py-2 rounded-md"
                     disabled={loading} // Disable button while loading
                   >
-                    {loading ? 'Uploading...' : 'Upload Users'}
+                    {loading ? 'Creating...' : 'Create Course'}
                   </button>
                 </form>
 
@@ -132,4 +140,4 @@ function Bulkupload() {
   );
 }
 
-export default Bulkupload;
+export default Addcourse;

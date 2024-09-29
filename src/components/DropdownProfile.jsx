@@ -89,7 +89,7 @@ function DropdownProfile({ align }) {
             <li>
               <Link
                 className="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
-                to="/signin"
+                to="admin/logout"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 Sign Out

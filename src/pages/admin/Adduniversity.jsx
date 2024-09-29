@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { postDataToBackend } from '../api/api'; // Import API function
+import { postDataToBackend } from '../../api/api'; // Import API function
 import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
+import Sidebar from './partials/Sidebar';
+import Header from './partials/Header';
 
 function Adduniversity() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,7 +26,7 @@ function Adduniversity() {
     e.preventDefault();
     setLoading(true); // Show spinner
     try {
-      const response = await postDataToBackend('/add_org', formData);
+      const response = await postDataToBackend('admin/add_org', formData);
       toast.success(response.message);
       setFormData({ long_name: '', short_name: '', location: '', country: '' }); // Clear form
     } catch (error) {

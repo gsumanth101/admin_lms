@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getDataFromBackend } from '../../api/api';
+import { getDataFromBackend } from '../../../../api/api';
 
 function DashboardCard02() {
   const [spocCount, setSpocCount] = useState(0);
@@ -7,7 +7,7 @@ function DashboardCard02() {
   useEffect(() => {
     const fetchSpocCount = async () => {
       try {
-        const response = await getDataFromBackend('/spocs/count');
+        const response = await getDataFromBackend('admin/spocs/count');
         if (response && typeof response.count === 'number') {
           setSpocCount(response.count);
         } else {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'https://api.phemesoft.com/admin';
+export const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000/';
 
 // Function to get data from the backend
 export const getDataFromBackend = async (endpoint) => {
@@ -33,3 +33,19 @@ export const postDataToBackend = async (endpoint, data) => {
     throw error;
   }
 };
+
+//logout
+export const logout = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    const response = await axios.post(`${BASE_URL}/admin/logout`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error logging out:', error);
+    throw error;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getDataFromBackend } from '../../api/api';
+import { getDataFromBackend } from '../../../../api/api';
 
 function DashboardCard03() {
   const [userCount, setUserCount] = useState(0);
@@ -7,7 +7,7 @@ function DashboardCard03() {
   useEffect(() => {
     const fetchUserCount = async () => {
       try {
-        const response = await getDataFromBackend('/users/count');
+        const response = await getDataFromBackend('admin/users/count');
         if (response && typeof response.count === 'number') {
           setUserCount(response.count);
         } else {

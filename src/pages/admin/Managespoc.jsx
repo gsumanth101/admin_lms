@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
-import Coursedashboard from '../partials/dashboard/Coursedashboard';
+import Sidebar from './partials/Sidebar';
+import Header from './partials/Header';
+import Spocdashboard from './partials/dashboard/Spocdashboard';
 
 function ManageUniversity() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,7 +20,7 @@ function ManageUniversity() {
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-6xl mx-auto">
             {/* University Table */}
             <div className="overflow-x-auto">
-                <Coursedashboard />
+                <Spocdashboard />
             </div>
           </div>
         </main>

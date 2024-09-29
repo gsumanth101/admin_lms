@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getDataFromBackend } from '../../api/api';
+import { getDataFromBackend } from '../../../../api/api';
 
 function DashboardCard07() {
   const [universities, setUniversities] = useState([]);
@@ -7,7 +7,7 @@ function DashboardCard07() {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await getDataFromBackend('/org');
+        const response = await getDataFromBackend('admin/org');
         if (response && Array.isArray(response.universities)) {
           setUniversities(response.universities);
         } else {

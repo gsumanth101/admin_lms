@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getDataFromBackend } from '../../api/api';
+import { getDataFromBackend } from '../../../../api/api';
 
 function DashboardCard01() {
   const [universityCount, setUniversityCount] = useState(0);
@@ -7,7 +7,7 @@ function DashboardCard01() {
   useEffect(() => {
     const fetchUniversityCount = async () => {
       try {
-        const response = await getDataFromBackend('/universities/count');
+        const response = await getDataFromBackend('admin/universities/count');
         if (response && typeof response.count === 'number') {
           setUniversityCount(response.count);
         } else {

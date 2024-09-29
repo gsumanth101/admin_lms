@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../api/api';
+import { BASE_URL } from '../../api/api';
 
 function Login() {
   const [loginInfo, setLoginInfo] = useState({
@@ -26,7 +26,7 @@ function Login() {
       return setError('Email and password are required');
     }
     try {
-      const url = `${BASE_URL}/login`;
+      const url = `${BASE_URL}admin/login`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
