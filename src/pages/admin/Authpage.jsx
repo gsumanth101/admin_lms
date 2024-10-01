@@ -1,58 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../api/api';
+import { adminLogin } from '../../api/api';
 
-function Login() {
-  const [loginInfo, setLoginInfo] = useState({
-    email: '',
-    password: ''
-  });
-  const [error, setError] = useState(null);
+const AdminLogin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await adminLogin(email, password);
+      localStorage.setItem('token', data.token);
+      navigate('/admin/dashboard');
+    } catch (err) {
+      setError(err.response.data.msg || 'Login failed');
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
-    setLoginInfo((prevInfo) => ({
-      ...prevInfo,
-      [name]: value
-    }));
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const { email, password } = loginInfo;
-    if (!email || !password) {
-      return setError('Email and password are required');
-    }
-    try {
-      const url = `${BASE_URL}/login`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginInfo)
-      });
-      const result = await response.json();
-      const { success, message, jwtToken, name, error } = result;
-      if (success) {
-        setError(null);
-        localStorage.setItem('token', jwtToken);
-        localStorage.setItem('loggedInUser', name);
-        setTimeout(() => {
-          navigate('/dashboard'); // Replace with the actual route you want to navigate to
-        }, 1000);
-      } else if (error) {
-        const details = error?.details[0]?.message;
-        setError(details || 'An error occurred');
-      } else if (!success) {
-        setError(message);
-      }
-      // console.log(result);
-    } catch (err) {
-      setError('An error occurred. Please try again.');
-      console.error('Error:', err);
+    if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'password') {
+      setPassword(value);
     }
   };
 
@@ -72,7 +44,7 @@ function Login() {
             Sign in to continue
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
               <label htmlFor="email-address" className="sr-only">
@@ -84,7 +56,7 @@ function Login() {
                 type="email"
                 autoComplete="email"
                 required
-                value={loginInfo.email}
+                value={email}
                 onChange={handleChange}
                 className="appearance-none rounded-md block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out sm:text-sm"
                 placeholder="Email address"
@@ -100,7 +72,7 @@ function Login() {
                 type="password"
                 autoComplete="current-password"
                 required
-                value={loginInfo.password}
+                value={password}
                 onChange={handleChange}
                 className="appearance-none rounded-md block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out sm:text-sm"
                 placeholder="Password"
@@ -131,4 +103,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default AdminLogin;

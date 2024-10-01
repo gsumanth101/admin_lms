@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getDataFromBackend, postDataToBackend } from '../api/api'; // Import API functions
+import { getDataFromBackend, postDataToBackend } from '../../api/api'; // Import API functions
 
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
+import Sidebar from '../../partials/Sidebar';
+import Header from '../../partials/Header';
 
 function CreateUser() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

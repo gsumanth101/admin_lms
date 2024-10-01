@@ -1,17 +1,42 @@
 import axios from 'axios';
 
-// export const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'https://api.phemesoft.com/admin';
-export const BASE_URL ='https://api.phemesoft.com/admin';
+const API_BASE_URL = 'http://localhost:3000/api';
+
+const api = axios.create({
+    baseURL: API_BASE_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// Admin API calls
+export const adminLogin = async (email, password) => {
+    const response = await api.post('/admin/login', { email, password });
+    return response.data;
+};
+
+export const getAdminProfiles = async () => {
+    const response = await api.get('/admin/profile');
+    return response.data;
+};
 
 // Function to get data from the backend
 export const getDataFromBackend = async (endpoint) => {
   try {
-    const token = localStorage.getItem('authToken');
-    const response = await axios.get(`${BASE_URL}${endpoint}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    const response = await api.get(endpoint);
     return response.data;
   } catch (error) {
     console.error('Error fetching data from backend:', error);
@@ -22,15 +47,12 @@ export const getDataFromBackend = async (endpoint) => {
 // Function to post data to the backend
 export const postDataToBackend = async (endpoint, data) => {
   try {
-    const token = localStorage.getItem('authToken');
-    const response = await axios.post(`${BASE_URL}${endpoint}`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    const response = await api.post(endpoint, data);
     return response.data;
   } catch (error) {
     console.error('Error posting data to backend:', error);
     throw error;
   }
 };
+
+export default api;

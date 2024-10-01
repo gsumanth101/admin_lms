@@ -1,21 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Transition from '../utils/Transition';
-import UserAvatar from '../images/user-avatar-32.png';
+import { getAdminProfiles } from '../../../api/api';
+import Transition from '../../../utils/Transition';
+import UserAvatar from '../../../images/user-avatar-32.png';
 
 function DropdownProfile({ align }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState('');
-
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
-  // Fetch logged-in user from localStorage
+  // Fetch logged-in user profile
   useEffect(() => {
-    const user = localStorage.getItem('loggedInUser');
-    if (user) {
-      setLoggedInUser(user);
-    }
+    const fetchUserProfile = async () => {
+      try {
+        const profile = await getAdminProfiles();
+        setLoggedInUser(profile.name);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
   }, []);
 
   // Close on click outside
@@ -43,20 +49,19 @@ function DropdownProfile({ align }) {
     <div className="relative inline-flex">
       <button
         ref={trigger}
-        className="inline-flex justify-center items-center group"
+        className="inline-flex justify-center-center group"
         aria-haspopup="true"
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
         <img className="w-8 h-8 rounded-full" src={UserAvatar} width="32" height="32" alt="User" />
         <div className="flex items-center truncate">
-          <span className="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">{loggedInUser || 'Acme Inc.'}</span>
+          <span className="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">{loggedInUser}</span>
           <svg className="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500" viewBox="0 0 12 12">
             <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
           </svg>
         </div>
       </button>
-
       <Transition
         className={`origin-top-right z-10 absolute top-full min-w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 py-1.5 rounded-lg shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'right-0' : 'left-0'}`}
         show={dropdownOpen}
@@ -73,26 +78,32 @@ function DropdownProfile({ align }) {
           onBlur={() => setDropdownOpen(false)}
         >
           <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
-            <div className="font-medium text-gray-800 dark:text-gray-100">{loggedInUser || 'User'}</div>
+            <div className="font-medium text-gray-800 dark:text-gray-100">{loggedInUser}</div>
             <div className="text-xs text-gray-500 dark:text-gray-400 italic">Administrator</div>
           </div>
           <ul>
             <li>
               <Link
-                className="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
+                to="/profile"
+                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Profile
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/settings"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 Settings
               </Link>
             </li>
             <li>
               <Link
-                className="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
-                to="/signin"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
+                to="/logout"
+                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                Sign Out
+                Logout
               </Link>
             </li>
           </ul>

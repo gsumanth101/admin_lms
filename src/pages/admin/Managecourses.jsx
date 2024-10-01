@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
-import Coursedashboard from '../partials/dashboard/Coursedashboard';
+import Sidebar from '../../partials/Sidebar';
+import Header from '../../partials/Header';
+import Coursedashboard from '../../partials/dashboard/Coursedashboard';
 
 function ManageUniversity() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

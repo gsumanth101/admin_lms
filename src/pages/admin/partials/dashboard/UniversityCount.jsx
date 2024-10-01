@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getDataFromBackend } from '../../api/api';
 
-function DashboardCard01() {
+function niversityCount() {
   const [universityCount, setUniversityCount] = useState(0);
 
   useEffect(() => {
@@ -40,4 +40,4 @@ function DashboardCard01() {
   );
 }
 
-export default DashboardCard01;
+export default universityCount;
