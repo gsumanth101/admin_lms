@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// const API_BASE_URL = 'http://localhost:4000/api';
+const API_BASE_URL = 'http://localhost:4000/api';
 
-const API_BASE_URL = 'https://api.phemesoft.com/api';
+// const API_BASE_URL = 'https://api.phemesoft.com/api';
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -24,16 +24,7 @@ api.interceptors.request.use(
     }
 );
 
-// Admin API calls
-export const adminLogin = async (email, password) => {
-    const response = await api.post('/admin/login', { email, password });
-    return response.data;
-};
 
-export const getAdminProfiles = async () => {
-    const response = await api.get('/admin/profile');
-    return response.data;
-};
 
 // Function to get data from the backend
 export const getDataFromBackend = async (endpoint) => {
@@ -46,7 +37,6 @@ export const getDataFromBackend = async (endpoint) => {
   }
 };
 
-// Function to post data to the backend
 export const postDataToBackend = async (endpoint, data) => {
   try {
     const response = await api.post(endpoint, data);
@@ -55,6 +45,29 @@ export const postDataToBackend = async (endpoint, data) => {
     console.error('Error posting data to backend:', error);
     throw error;
   }
+};
+
+// Admin API calls
+export const adminLogin = async (email, password) => {
+  const response = await api.post('/admin/login', { email, password });
+  return response.data;
+};
+
+export const getAdminProfiles = async () => {
+  const response = await api.get('/admin/profile');
+  return response.data;
+};
+
+
+// SPOC API calls
+export const spocLogin = async (email, password) => {
+  const response = await api.post('/spoc/login', { email, password });
+  return response.data;
+};
+
+export const getSpocProfiles = async () => {
+  const response = await api.get('/spoc/profile');
+  return response.data;
 };
 
 export default api;
