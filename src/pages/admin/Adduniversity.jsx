@@ -37,7 +37,6 @@ function Adduniversity() {
   return (
     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-6">Add University</h2>
-      <h2 className="text-xl font-bold mb-4">Create University</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label className="block text-sm font-medium mb-2">Long Name</label>
@@ -100,4 +99,4 @@ function Adduniversity() {
   );
 }
 
-export default AddUniversity;
+export default Adduniversity;

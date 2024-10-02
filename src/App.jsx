@@ -8,7 +8,7 @@ import ProtectedRoute from './ProtectedRoute';
 // Import pages
 import Dashboard from './pages/admin/Dashboard';
 import Login from './pages/admin/Authpage';
-import AddUniversity from './pages/admin/Adduniversity';
+import Adduniversity from './pages/admin/Adduniversity';
 import AddCourse from './pages/admin/Addcourse';
 import AdminLayout from './pages/admin/AdminLayout';
 import BulkUpload from './pages/admin/Bulkupload';
@@ -30,7 +30,7 @@ function App() {
         <Route exact path="/" element={<Login />} />
         <Route path="/admin" element={<ProtectedRoute element={AdminLayout} />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="add_university" element={<AddUniversity />} />
+          <Route path="add_university" element={<Adduniversity />} />
           <Route path="add_course" element={<AddCourse />} />
           <Route path="upload_users" element={<BulkUpload />} />
           <Route path="create_user" element={<CreateUser/>} />
