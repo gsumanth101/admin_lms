@@ -11,7 +11,7 @@ import Login from './pages/admin/Authpage';
 import AddUniversity from './pages/admin/Adduniversity';
 import AddCourse from './pages/admin/Addcourse';
 import AdminLayout from './pages/admin/AdminLayout';
-import BulkUpload from './pages/admin/BulkUpload';
+import BulkUpload from './pages/admin/Bulkupload';
 import CreateUser from './pages/admin/Createuser';
 import Createspoc from './pages/admin/Createspoc';
 
