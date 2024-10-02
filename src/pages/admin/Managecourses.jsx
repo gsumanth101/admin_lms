@@ -30,3 +30,6 @@ function ManageUniversity() {
 }
 
 export default ManageUniversity;
+
+
+

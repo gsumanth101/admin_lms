@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getDataFromBackend, postDataToBackend } from '../../api/api'; // Import API functions
 import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
+
 
 function CreateSpoc() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,7 +19,7 @@ function CreateSpoc() {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await getDataFromBackend('/org');
+        const response = await getDataFromBackend('/admin/org');
         if (response && Array.isArray(response.universities)) {
           setUniversities(response.universities);
         } else {
@@ -54,7 +53,7 @@ function CreateSpoc() {
 
     setLoading(true); // Show spinner
     try {
-      const response = await postDataToBackend('/spocs', formData);
+      const response = await postDataToBackend('/admin/create-spoc', formData);
       if (response && response.message) {
         toast.success(response.message);
         setFormData({
@@ -76,22 +75,9 @@ function CreateSpoc() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-      {/* Content area */}
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        {/* Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-        <main className="grow flex items-center justify-center">
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-4xl mx-auto">
-            {/* Form Card */}
-            <div className="flex items-center justify-center">
-              <div className="col-span-12 xl:col-span-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full h-96 overflow-y-auto">
-                <h2 className="text-xl font-bold mb-4">Create SPOC</h2>
-                <form onSubmit={handleSubmit}>
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6">Add Course</h2>
+      <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label className="block text-sm font-medium mb-2">Name</label>
                     <input
@@ -154,15 +140,7 @@ function CreateSpoc() {
                     {loading ? 'Creating...' : 'Create SPOC'}
                   </button>
                 </form>
-
-                {/* Toast Container */}
-                <ToastContainer />
-
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
+      <ToastContainer />
     </div>
   );
 }

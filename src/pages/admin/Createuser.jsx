@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getDataFromBackend, postDataToBackend } from '../../api/api'; // Import API functions
-
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
+import { getDataFromBackend, postDataToBackend } from '../../api/api'; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreateUser() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -24,7 +23,7 @@ function CreateUser() {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await getDataFromBackend('/org');
+        const response = await getDataFromBackend('/admin/org');
         if (response && Array.isArray(response.universities)) {
           setUniversities(response.universities);
         } else {
@@ -55,7 +54,7 @@ function CreateUser() {
     }
 
     try {
-      const response = await postDataToBackend('/users', formData);
+      const response = await postDataToBackend('/admin/create-admin', formData);
       setMessage(response.message);
       setFormData({
         regd_no: '',
@@ -74,22 +73,9 @@ function CreateUser() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-      {/* Content area */}
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        {/* Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-        <main className="grow flex items-center justify-center">
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-4xl mx-auto">
-            {/* Form Card */}
-            <div className="flex items-center justify-center">
-              <div className="col-span-12 xl:col-span-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full h-96 overflow-y-auto">
-                <h2 className="text-xl font-bold mb-4">Create User</h2>
-                <form onSubmit={handleSubmit}>
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6">Add Course</h2>
+      <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label className="block text-sm font-medium mb-2">Registration Number</label>
                     <input
@@ -211,14 +197,7 @@ function CreateUser() {
                     Create User
                   </button>
                 </form>
-
-                {/* Message */}
-                {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
+      <ToastContainer />
     </div>
   );
 }
