@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FilterButton from '../../components/DropdownFilter';
 import Datepicker from '../../components/Datepicker';
 // import UniversityCount from './partials/dashboard/UniversityCount';
-
+// import DashboardCard02 from './partials/dashboard/DashboardCard02';
 // import DashboardCard03 from './partials/dashboard/DashboardCard03';
 // import DashboardCard04 from '../partials/dashboard/DashboardCard04';
 // import DashboardCard05 from '../partials/dashboard/DashboardCard05';
@@ -14,13 +14,8 @@ import Datepicker from '../../components/Datepicker';
 // import DashboardCard11 from '../partials/dashboard/DashboardCard11';
 // import DashboardCard12 from '../partials/dashboard/DashboardCard12';
 // import DashboardCard13 from '../partials/dashboard/DashboardCard13';
-import UniversityCount from './partials/dashboard/UniversityCount';
-import StudentCount from './partials/dashboard/StudentCount';
-import SpocCount from './partials/dashboard/SpocCount';
-import CourseCount from './partials/dashboard/CourseCount';
-import Universities from './partials/dashboard/Universities';
 
-function Dashboard() {
+function SpocDashboard() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -45,16 +40,8 @@ function Dashboard() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* Filter button */}
-                {/* <FilterButton align="right" /> */}
-                {/* Datepicker built with flatpickr */}
                 <Datepicker align="right" />
-                {/* Add view button */}
-                {/* <button className="btn bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white">
-                  <svg className="fill-current shrink-0 xs:hidden" width="16" height="16" viewBox="0 0 16 16">
-                    <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                  </svg>
-                  <span className="max-xs:sr-only">Add View</span>
-                </button>                 */}
+                {/* Add view button */}              
               </div>
 
             </div>
@@ -65,15 +52,8 @@ function Dashboard() {
               {/* Line chart (Acme Plus) */}
               {/* <DashboardCard01 />
               <DashboardCard02 />
-
               <DashboardCard03 /> */}
-              <UniversityCount/>
-              <StudentCount/>
-              <SpocCount/>
-              <CourseCount/>
-
-              <Universities/>
-              
+              {/* <UniversityCount/> */}
 
 
               <div className="col-span-full xl:col-span-12">
@@ -92,4 +72,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default SpocDashboard;

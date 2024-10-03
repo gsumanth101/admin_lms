@@ -17,7 +17,6 @@ function CreateUser() {
     universityId: ''
   });
   const [universities, setUniversities] = useState([]);
-  const [message, setMessage] = useState('');
 
   // Fetch universities on component mount
   useEffect(() => {
@@ -49,13 +48,13 @@ function CreateUser() {
     const { regd_no, name, mailid, section, stream, year, dept, password, universityId } = formData;
 
     if (!regd_no || !name || !mailid || !section || !stream || !year || !dept || !password || !universityId) {
-      setMessage('Please fill in all required fields.');
+      toast.error('Please fill in all required fields.');
       return;
     }
 
     try {
-      const response = await postDataToBackend('/admin/create-admin', formData);
-      setMessage(response.message);
+      const response = await postDataToBackend('/admin/create-student', formData);
+      toast.success(response.message);
       setFormData({
         regd_no: '',
         name: '',
@@ -68,7 +67,7 @@ function CreateUser() {
         universityId: ''
       }); // Clear form
     } catch (error) {
-      setMessage('Error creating user: ' + (error.response?.data?.message || error.message));
+      toast.error('Error creating user: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -76,127 +75,127 @@ function CreateUser() {
     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-6">Add Course</h2>
       <form onSubmit={handleSubmit}>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Registration Number</label>
-                    <input
-                      type="text"
-                      name="regd_no"
-                      value={formData.regd_no}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Registration Number</label>
+          <input
+            type="text"
+            name="regd_no"
+            value={formData.regd_no}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Email</label>
-                    <input
-                      type="email"
-                      name="mailid"
-                      value={formData.mailid}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Email</label>
+          <input
+            type="email"
+            name="mailid"
+            value={formData.mailid}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Section</label>
-                    <input
-                      type="text"
-                      name="section"
-                      value={formData.section}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Section</label>
+          <input
+            type="text"
+            name="section"
+            value={formData.section}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Stream</label>
-                    <input
-                      type="text"
-                      name="stream"
-                      value={formData.stream}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Stream</label>
+          <input
+            type="text"
+            name="stream"
+            value={formData.stream}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Year</label>
-                    <input
-                      type="text"
-                      name="year"
-                      value={formData.year}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Year</label>
+          <input
+            type="text"
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Department</label>
-                    <input
-                      type="text"
-                      name="dept"
-                      value={formData.dept}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Department</label>
+          <input
+            type="text"
+            name="dept"
+            value={formData.dept}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Password</label>
-                    <input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Select University</label>
-                    <select
-                      name="universityId"
-                      value={formData.universityId}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    >
-                      <option value="">Select a university</option>
-                      {universities.map((university) => (
-                        <option key={university._id} value={university._id}>
-                          {university.long_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Select University</label>
+          <select
+            name="universityId"
+            value={formData.universityId}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          >
+            <option value="">Select a university</option>
+            {universities.map((university) => (
+              <option key={university._id} value={university._id}>
+                {university.long_name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-                  <button
-                    type="submit"
-                    className="btn bg-gray-900 text-white hover:bg-gray-700 w-full py-2 rounded-md"
-                  >
-                    Create User
-                  </button>
-                </form>
+        <button
+          type="submit"
+          className="btn bg-gray-900 text-white hover:bg-gray-700 w-full py-2 rounded-md"
+        >
+          Create User
+        </button>
+      </form>
       <ToastContainer />
     </div>
   );

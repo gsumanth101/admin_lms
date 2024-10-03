@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { getDataFromBackend } from '../../../../api/api';
+import { getDataFromBackend } from '../../api/api';
 
-function UniversityCount() {
-  const [universityCount, setUniversityCount] = useState(0);
+function DashboardCard02() {
+  const [spocCount, setSpocCount] = useState(0);
 
   useEffect(() => {
-    const fetchUniversityCount = async () => {
+    const fetchSpocCount = async () => {
       try {
-        const response = await getDataFromBackend('/admin/university_count');
+        const response = await getDataFromBackend('/spocs/count');
         if (response && typeof response.count === 'number') {
-          setUniversityCount(response.count);
+          setSpocCount(response.count);
         } else {
           console.error('Unexpected response format:', response);
         }
       } catch (error) {
-        console.error('Error fetching university count:', error);
+        console.error('Error fetching SPOC count:', error);
       }
     };
 
-    fetchUniversityCount();
+    fetchSpocCount();
   }, []);
 
   return (
-    <div className="col-span-full sm:col-span-6 xl:col-span-3 bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg rounded-sm border border-gray-200 dark:border-gray-700">
+    <div className="col-span-full sm:col-span-6 xl:col-span-3 bg-gradient-to-r from-green-500 to-green-700 shadow-lg rounded-sm border border-gray-200 dark:border-gray-700">
       <div className="p-5">
         <header className="flex justify-between items-start mb-2">
           <div className="flex items-center">
@@ -31,8 +31,8 @@ function UniversityCount() {
             </svg>
           </div>
           <div className="text-right">
-            <h2 className="text-lg font-semibold text-white">Universities</h2>
-            <div className="text-3xl font-bold text-white">{universityCount}</div>
+            <h2 className="text-lg font-semibold text-white">SPOCs</h2>
+            <div className="text-3xl font-bold text-white">{spocCount}</div>
           </div>
         </header>
       </div>
@@ -40,4 +40,4 @@ function UniversityCount() {
   );
 }
 
-export default UniversityCount;
+export default DashboardCard02;

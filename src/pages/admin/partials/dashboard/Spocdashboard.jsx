@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getDataFromBackend } from '../../../../api/api'; // Import the getDataFromBackend function
 
 function Spocdashboard() {
   const [spocs, setSpocs] = useState([]);
@@ -7,11 +7,11 @@ function Spocdashboard() {
   useEffect(() => {
     const fetchSpocs = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/admin/spocs');
-        if (response.data && Array.isArray(response.data.spocs)) {
-          setSpocs(response.data.spocs);
+        const response = await getDataFromBackend('/admin/spocs');
+        if (response && Array.isArray(response.spocs)) {
+          setSpocs(response.spocs);
         } else {
-          console.error('Unexpected response format:', response.data);
+          console.error('Unexpected response format:', response);
         }
       } catch (error) {
         console.error('Error fetching SPOCs:', error);

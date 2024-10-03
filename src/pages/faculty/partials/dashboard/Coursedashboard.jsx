@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getDataFromBackend } from '../../../../api/api';
+import { getDataFromBackend } from '../../api/api';
 
 function Coursedashboard() {
   const [courses, setCourses] = useState([]);
