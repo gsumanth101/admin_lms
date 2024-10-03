@@ -37,6 +37,7 @@ import StudentLayout from './pages/student/StudentLayout';
 import StudentLogin from './pages/student/AuthPage';
 import StudentDashboard from './pages/student/StudentDashboard';
 import Meetings from './pages/student/Meeting';
+import Assessments from './pages/student/Assessments';
 
 
 
@@ -92,9 +93,10 @@ function App() {
 
 
           {/* _____________________Student Routes_______________________________ */}
-          <Route path="/student" element={<ProtectedRoute element={StudentLayout} />}>
+          <Route path="/student" element={<StudentLayout />}>
             <Route path="dashboard" element={<StudentDashboard />} />
             <Route path="meetings" element={<Meetings />} />
+            <Route path="assessments" element={<Assessments />} />
             <Route path="*" element={<h1>Not Found</h1>} />
           </Route>
           
