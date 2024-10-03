@@ -1,8 +1,8 @@
 import setErrorReact, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { spocLogin } from '../../api/api';
+import { studentLogin } from '../../api/api';
 
-const SpocLogin = () => {
+const StudentLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -11,9 +11,9 @@ const SpocLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await spocLogin(email, password);
+      const data = await studentLogin(email, password);
       localStorage.setItem('token', data.token);
-      navigate('/spoc/dashboard');
+      navigate('/student/dashboard');
     } catch (err) {
       setError(err.response.data.msg || 'Login failed');
     }
@@ -103,4 +103,4 @@ const SpocLogin = () => {
   );
 }
 
-export default SpocLogin;
+export default StudentLogin;

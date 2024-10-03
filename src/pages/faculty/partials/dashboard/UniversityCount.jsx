@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { getDataFromBackend } from '../../../../api/api';
+import { getDataFromBackend } from '../../api/api';
 
-function UniversityCount() {
+function niversityCount() {
   const [universityCount, setUniversityCount] = useState(0);
 
   useEffect(() => {
     const fetchUniversityCount = async () => {
       try {
-        const response = await getDataFromBackend('/admin/university_count');
+        const response = await getDataFromBackend('/universities/count');
         if (response && typeof response.count === 'number') {
           setUniversityCount(response.count);
         } else {
@@ -40,4 +40,4 @@ function UniversityCount() {
   );
 }
 
-export default UniversityCount;
+export default universityCount;

@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { getDataFromBackend } from '../../../../api/api';
 
-function Coursedashboard() {
-  const [courses, setCourses] = useState([]);
+function Universities() {
+  const [universities, setUniversities] = useState([]);
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchUniversities = async () => {
       try {
-        const response = await getDataFromBackend('/courses');
-        if (response && Array.isArray(response.courses)) {
-          setCourses(response.courses);
+        const response = await getDataFromBackend('/admin/org');
+        if (response && Array.isArray(response.universities)) {
+          setUniversities(response.universities);
         } else {
           console.error('Unexpected response format:', response);
         }
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('Error fetching universities:', error);
       }
     };
 
-    fetchCourses();
+    fetchUniversities();
   }, []);
+
   return (
     <div className="col-span-full xl:col-span-10 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
       <header className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
-        <h2 className="font-semibold text-gray-800 dark:text-gray-100">Courses</h2>
+        <h2 className="font-semibold text-gray-800 dark:text-gray-100">Universities</h2>
       </header>
       <div className="p-3">
         {/* Table */}
@@ -33,34 +34,34 @@ function Coursedashboard() {
             <thead className="text-xs uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 dark:bg-opacity-50 rounded-sm">
               <tr>
                 <th className="p-2">
-                  <div className="font-semibold text-left">Course Name</div>
+                  <div className="font-semibold text-left">Long Name</div>
                 </th>
                 <th className="p-2">
-                  <div className="font-semibold text-left">Description</div>
+                  <div className="font-semibold text-left">Short Name</div>
                 </th>
                 <th className="p-2">
-                  <div className="font-semibold text-left">Universities</div>
+                  <div className="font-semibold text-center">Location</div>
+                </th>
+                <th className="p-2">
+                  <div className="font-semibold text-center">Country</div>
                 </th>
               </tr>
             </thead>
             {/* Table body */}
             <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
-              {courses.map((course) => (
-                <tr key={course._id}>
+              {universities.map((university) => (
+                <tr key={university._id}>
                   <td className="p-2">
-                    <div className="text-gray-800 dark:text-gray-100">{course.name}</div>
+                    <div className="text-gray-800 dark:text-gray-100">{university.long_name}</div>
                   </td>
                   <td className="p-2">
-                    <div className="text-gray-800 dark:text-gray-100">{course.description}</div>
+                    <div className="text-gray-800 dark:text-gray-100">{university.short_name}</div>
                   </td>
                   <td className="p-2">
-                    <div className="text-gray-800 dark:text-gray-100">
-                      {course.universities.map((university) => (
-                        <div key={university._id}>
-                          {university.long_name}
-                        </div>
-                      ))}
-                    </div>
+                    <div className="text-center">{university.location}</div>
+                  </td>
+                  <td className="p-2">
+                    <div className="text-center">{university.country}</div>
                   </td>
                 </tr>
               ))}
@@ -72,4 +73,4 @@ function Coursedashboard() {
   );
 }
 
-export default Coursedashboard;
+export default Universities;
