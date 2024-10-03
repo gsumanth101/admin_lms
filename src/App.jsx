@@ -29,7 +29,8 @@ import CreateMeeting from './pages/faculty/CreateMeeting';
 import FacultyLayout from './pages/faculty/FacultyLayout';
 import FacultyLogin from './pages/faculty/AuthPage';
 import AssessmentCreation from './pages/faculty/AssessmentGeneration';
-
+import ManageAssessments from './pages/faculty/ManageAssessments';
+import AssessmentResults from './pages/faculty/AssessmentResults';
 // import FacultyDashboard from './pages/faculty/FacultyDashboard';
 
 import StudentLayout from './pages/student/StudentLayout';
@@ -79,10 +80,12 @@ function App() {
             <Route path="*" element={<h1>Not Found</h1>} />
           </Route>
 
-          {/* _____________________Facullty Routes _____________________________*/}
-          <Route path="/faculty" element={<ProtectedRoute element={FacultyLayout} />}>
+          {/* _____________________Faculty Routes _____________________________*/}
+          <Route path="/faculty" element={<FacultyLayout/>}>
             {/* <Route path="dashboard" element={<FacultyDashboard />} /> */}
             <Route path="generate_assessments" element={<AssessmentCreation/>} />
+            <Route path="manage-assessments" element={<ManageAssessments />} />
+            <Route path="assessment-results" element={<AssessmentResults/>} />
             <Route path="create_meeting" element={<CreateMeeting/>} />
             <Route path="*" element={<h1>Not Found</h1>} />
           </Route>
