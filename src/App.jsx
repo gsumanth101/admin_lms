@@ -38,6 +38,7 @@ import StudentLogin from './pages/student/AuthPage';
 import StudentDashboard from './pages/student/StudentDashboard';
 import Meetings from './pages/student/Meeting';
 import Assessments from './pages/student/Assessments';
+import Mycourse from './pages/student/managecourse';
 
 
 
@@ -99,6 +100,7 @@ function App() {
             <Route path="dashboard" element={<StudentDashboard />} />
             <Route path="meetings" element={<Meetings />} />
             <Route path="assessments" element={<Assessments />} />
+            <Route path="mycourse" element={<Mycourse />} />
             <Route path="*" element={<h1>Not Found</h1>} />
           </Route>
           
