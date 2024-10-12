@@ -31,7 +31,7 @@ import FacultyLogin from './pages/faculty/AuthPage';
 import AssessmentCreation from './pages/faculty/AssessmentGeneration';
 import ManageAssessments from './pages/faculty/ManageAssessments';
 import AssessmentResults from './pages/faculty/AssessmentResults';
-// import FacultyDashboard from './pages/faculty/FacultyDashboard';
+import FacultyDashboard from './pages/faculty/FacultyDashboard';
 
 import StudentLayout from './pages/student/StudentLayout';
 import StudentLogin from './pages/student/AuthPage';
@@ -83,7 +83,8 @@ function App() {
 
           {/* _____________________Faculty Routes _____________________________*/}
           <Route path="/faculty" element={<FacultyLayout/>}>
-            {/* <Route path="dashboard" element={<FacultyDashboard />} /> */}
+            <Route index element={<FacultyDashboard />} />
+            <Route path="dashboard" element={<FacultyDashboard />} />
             <Route path="generate_assessments" element={<AssessmentCreation/>} />
             <Route path="manage-assessments" element={<ManageAssessments />} />
             <Route path="assessment-results" element={<AssessmentResults/>} />
@@ -94,6 +95,7 @@ function App() {
 
           {/* _____________________Student Routes_______________________________ */}
           <Route path="/student" element={<StudentLayout />}>
+            <Route index element={<StudentDashboard />} /> {/* This will be the default route */}
             <Route path="dashboard" element={<StudentDashboard />} />
             <Route path="meetings" element={<Meetings />} />
             <Route path="assessments" element={<Assessments />} />
