@@ -1,74 +1,52 @@
-import React, { useState } from 'react';
-import FilterButton from '../../components/DropdownFilter';
-import Datepicker from '../../components/Datepicker';
-// import UniversityCount from './partials/dashboard/UniversityCount';
-// import DashboardCard02 from './partials/dashboard/DashboardCard02';
-// import DashboardCard03 from './partials/dashboard/DashboardCard03';
-// import DashboardCard04 from '../partials/dashboard/DashboardCard04';
-// import DashboardCard05 from '../partials/dashboard/DashboardCard05';
-// import DashboardCard06 from '../partials/dashboard/DashboardCard06';
-// import DashboardCard07 from './partials/dashboard/DashboardCard07';
-// import DashboardCard08 from '../partials/dashboard/DashboardCard08';
-// import DashboardCard09 from '../partials/dashboard/DashboardCard09';
-// import DashboardCard10 from '../partials/dashboard/DashboardCard10';
-// import DashboardCard11 from '../partials/dashboard/DashboardCard11';
-// import DashboardCard12 from '../partials/dashboard/DashboardCard12';
-// import DashboardCard13 from '../partials/dashboard/DashboardCard13';
+import React from 'react';
+import { Box, Grid, Paper, Typography, Avatar, LinearProgress } from '@mui/material';
+import { FaTasks, FaCalendarAlt, FaUserGraduate } from 'react-icons/fa';
+import { IoMdTrendingUp } from 'react-icons/io';
+import Activity from './partials/dashboard/Activity';
+import TaskToday from './partials/dashboard/TaskToday';
+import RunningTask from './partials/dashboard/RunningTask';
+import UpcomingTask from './partials/dashboard/UpcomingTask';
+import WeekCalendar from './partials/dashboard/WeekCalendar';
+import MonthlyMentors from './partials/dashboard/MonthlyMentors';
 
 function StudentDashboard() {
-
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
   return (
-    <div className="flex h-screen overflow-hidden">
-
-      {/* Content area */}
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-
-
-        <main className="grow">
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-
-            {/* Dashboard actions */}
-            <div className="sm:flex sm:justify-between sm:items-center mb-8">
-
-              {/* Left: Title */}
-              <div className="mb-4 sm:mb-0">
-                <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Dashboard</h1>
-              </div>
-
-              {/* Right: Actions */}
-              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-                {/* Filter button */}
-                <Datepicker align="right" />
-                {/* Add view button */}              
-              </div>
-
-            </div>
-
-            {/* Cards */}
-            <div className="grid grid-cols-12 gap-6">
-
-              {/* Line chart (Acme Plus) */}
-              {/* <DashboardCard01 />
-              <DashboardCard02 />
-              <DashboardCard03 /> */}
-              {/* <UnivefacultyrsityCount/> */}
-
-
-              <div className="col-span-full xl:col-span-12">
-                {/* <DashboardCard07 /> */}
-              </div>
-
-              
-            </div>
-
-          </div>
-        </main>
-
-
-      </div>
-    </div>
+    <Box sx={{ flexGrow: 1, p: 3, bgcolor: '#f8f9fa' }}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={8}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Paper elevation={0} sx={{ p: 3, bgcolor: '#1e1e2d', color: 'white', borderRadius: 4 }}>
+                <RunningTask />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Paper elevation={0} sx={{ p: 3, bgcolor: 'white', borderRadius: 4 }}>
+                <Activity />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper elevation={0} sx={{ p: 3, bgcolor: 'white', borderRadius: 4 }}>
+                <MonthlyMentors />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper elevation={0} sx={{ p: 3, bgcolor: 'white', borderRadius: 4 }}>
+                <UpcomingTask />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Paper elevation={0} sx={{ p: 3, bgcolor: '#4318FF', color: 'white', borderRadius: 4, mb: 3 }}>
+            <WeekCalendar />
+          </Paper>
+          <Paper elevation={0} sx={{ p: 3, bgcolor: 'white', borderRadius: 4 }}>
+            <TaskToday />
+          </Paper>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
