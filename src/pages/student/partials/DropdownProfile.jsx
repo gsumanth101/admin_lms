@@ -79,12 +79,12 @@ function DropdownProfile({ align }) {
         >
           <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
             <div className="font-medium text-gray-800 dark:text-gray-100">{loggedInUser}</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 italic">Studentistrator</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 italic">Faculty</div>
           </div>
           <ul>
             <li>
               <Link
-                to="/student/profile"
+                to="/admin/profile"
                 className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 Profile

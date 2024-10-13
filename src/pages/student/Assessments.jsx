@@ -17,7 +17,7 @@ function Assessments() {
   const fetchAssessments = async () => {
     setIsLoading(true);
     try {
-      const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+      const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000/api';
       const url = `${baseUrl}/assessments/student`;
       console.log('Fetching assessments from:', url);
       const response = await axios.get(url, {

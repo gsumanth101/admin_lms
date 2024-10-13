@@ -62,11 +62,6 @@ export const spocLogin = async (email, password) => {
   return response.data;
 };
 
-export const getSpocProfiles = async () => {
-  const response = await api.get('/spoc/profile');
-  return response.data;
-};
-
 // Faculty API calls
 export const facultyLogin = async (email, password) => {
   const response = await api.post('/faculty/login', { email, password });
@@ -106,13 +101,18 @@ export const fetchMeetings = async (section) => {
 };
 
 export const createMeeting = async (meetingTitle, section, facultyId, facultyName) => {
-  const response = await api.post('/create-meeting', {
-    meetingTitle,
-    section,
-    facultyId,
-    facultyName,
-  });
-  return response.data;
+  try {
+    const response = await api.post('/meeting/create-meeting', {
+      meetingTitle,
+      section,
+      facultyId,
+      facultyName,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating meeting:', error);
+    throw error;
+  }
 };
 
 export default api;

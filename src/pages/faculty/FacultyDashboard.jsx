@@ -24,9 +24,9 @@ function FacultyDashboard() {
               </Paper>
             </Grid>
             <Grid item xs={12}>
-              <Paper elevation={3} sx={{ p: 3, bgcolor: 'white', borderRadius: 4 }}>
+              {/* <Paper elevation={3} sx={{ p: 3, bgcolor: 'white', borderRadius: 4 }}>
                 <Activity />
-              </Paper>
+              </Paper> */}
             </Grid>
             <Grid item xs={12}>
               <Paper elevation={3} sx={{ p: 3, bgcolor: 'white', borderRadius: 4 }}>

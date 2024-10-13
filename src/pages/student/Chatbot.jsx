@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ChatMessage from './ChatMessage';
-import { getGeminiResponse } from '../services/geminiService';
+import { getGeminiResponse } from '../../services/geminiServices';
 
 function Chatbot({ onClose }) {
   const [messages, setMessages] = useState([

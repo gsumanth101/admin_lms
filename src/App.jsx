@@ -8,22 +8,22 @@ import ProtectedRoute from './ProtectedRoute';
 // Import pages
 import Dashboard from './pages/admin/Dashboard';
 import Login from './pages/admin/Authpage';
-import Adduniversity from './pages/admin/Adduniversity';
-import AddCourse from './pages/admin/Addcourse';
-import AdminLayout from './pages/admin/AdminLayout';
-import BulkUpload from './pages/admin/Bulkupload';
-import CreateUser from './pages/admin/Createuser';
-import Createspoc from './pages/admin/Createspoc';
-import ProfilePage from './pages/admin/ProfilePage';
-import ManageUniversity from './pages/admin/ManageUniversity';
-import ManageSpoc from './pages/admin/Managespoc';
+// import Adduniversity from './pages/admin/Adduniversity';
+// import AddCourse from './pages/admin/Addcourse';
+// import AdminLayout from './pages/admin/AdminLayout';
+// import BulkUpload from './pages/admin/Bulkupload';
+// import CreateUser from './pages/admin/Createuser';
+// import Createspoc from './pages/admin/Createspoc';
+// import ProfilePage from './pages/admin/ProfilePage';
+// import ManageUniversity from './pages/admin/ManageUniversity';
+// import ManageSpoc from './pages/admin/Managespoc';
 
 
 import SpocLogin from './pages/spoc/Authpage';
-import SpocLayout from './pages/spoc/SpocLayout';
-import SpocDashboard from './pages/spoc/SpocDashboard';
-import SpocProfilePage from './pages/spoc/SpocProfilePage';
-import CreateFaculty from './pages/spoc/CreateFaculty';
+// import SpocLayout from './pages/spoc/SpocLayout';
+// import SpocDashboard from './pages/spoc/SpocDashboard';
+// import SpocProfilePage from './pages/spoc/SpocProfilePage';
+// import CreateFaculty from './pages/spoc/CreateFaculty';
 import CreateMeeting from './pages/faculty/CreateMeeting';
 
 import FacultyLayout from './pages/faculty/FacultyLayout';
@@ -59,7 +59,7 @@ function App() {
         <Route path="/student/login" element={<StudentLogin />} />
 
         {/* ______________________ADMIN ROUTES__________________________________ */}
-        <Route path="/admin" element={<ProtectedRoute element={AdminLayout} />}>
+        {/* <Route path="/admin" element={<ProtectedRoute element={AdminLayout} />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="add_university" element={<Adduniversity />} />
           <Route path="add_course" element={<AddCourse />} />
@@ -70,16 +70,16 @@ function App() {
           <Route path="manage_university" element={<ManageUniversity/>} />
           <Route path="manage_spoc" element={<ManageSpoc/>} />
           <Route path="*" element={<h1>Not Found</h1>} />
-        </Route>
+        </Route> */}
 
 
           {/* ______________________SPOC ROUTES_________________________________ */}
-           <Route path="/spoc" element={<ProtectedRoute element={SpocLayout} />}>
+           {/* <Route path="/spoc" element={<ProtectedRoute element={SpocLayout} />}>
             <Route path="dashboard" element={<SpocDashboard />} />
             <Route path="profile" element={<SpocProfilePage/>} />
             <Route path="add_faculty" element={<CreateFaculty/>} />
             <Route path="*" element={<h1>Not Found</h1>} />
-          </Route>
+          </Route> */}
 
           {/* _____________________Faculty Routes _____________________________*/}
           <Route path="/faculty" element={<FacultyLayout/>}>

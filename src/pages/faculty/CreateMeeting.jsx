@@ -1,5 +1,8 @@
+// src/pages/faculty/CreateMeeting.jsx
+
 import React, { useState } from 'react';
-import axios from 'axios';
+import { TextField, Button, Typography, CircularProgress, Alert, Box } from '@mui/material';
+import { createMeeting } from '../../api/api';
 
 const MeetingForm = () => {
   const [meetingTitle, setMeetingTitle] = useState('');
@@ -15,18 +18,12 @@ const MeetingForm = () => {
     setSuccessMessage('');
 
     try {
+      const facultyId = getFacultyId();
+      const facultyName = getFacultyName();
 
-      const facultyId = getFacultyId(); 
-      const facultyName = getFacultyName(); 
+      const response = await createMeeting(meetingTitle, section, facultyId, facultyName);
 
-      const response = await axios.post('/api/create-meeting', {
-        meetingTitle,
-        section,
-        facultyId,
-        facultyName,
-      });
-
-      setSuccessMessage(`Meeting created successfully! Meeting URL: ${response.data.meetingUrl}`);
+      setSuccessMessage(`Meeting created successfully! Meeting URL: ${response.meetingUrl}`);
     } catch (error) {
       setError('Failed to create meeting. Please try again.');
     } finally {
@@ -35,35 +32,54 @@ const MeetingForm = () => {
   };
 
   return (
-    <div>
-      <h2>Create a Meeting</h2>
+    <Box sx={{ maxWidth: 400, margin: '0 auto', padding: 2 }}>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Create a Meeting
+      </Typography>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Meeting Title:</label>
-          <input
-            type="text"
+        <Box mb={2}>
+          <TextField
+            label="Meeting Title"
+            variant="outlined"
+            fullWidth
             value={meetingTitle}
             onChange={(e) => setMeetingTitle(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label>Section:</label>
-          <input
-            type="text"
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Section"
+            variant="outlined"
+            fullWidth
             value={section}
             onChange={(e) => setSection(e.target.value)}
             required
           />
-        </div>
-        <button type="submit" disabled={loading}>
+        </Box>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          disabled={loading}
+          startIcon={loading && <CircularProgress size={20} />}
+        >
           {loading ? 'Creating...' : 'Create Meeting'}
-        </button>
+        </Button>
       </form>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-    </div>
+      {error && (
+        <Box mt={2}>
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      )}
+      {successMessage && (
+        <Box mt={2}>
+          <Alert severity="success">{successMessage}</Alert>
+        </Box>
+      )}
+    </Box>
   );
 };
 

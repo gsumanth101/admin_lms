@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getSpocProfiles } from '../../../api/api';
+import { getFacultyProfiles } from '../../../api/api';
 import Transition from '../../../utils/Transition';
 import UserAvatar from '../../../images/user-avatar-32.png';
 
@@ -14,7 +14,7 @@ function DropdownProfile({ align }) {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const profile = await getSpocProfiles();
+        const profile = await getFacultyProfiles();
         setLoggedInUser(profile.name);
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -79,12 +79,12 @@ function DropdownProfile({ align }) {
         >
           <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
             <div className="font-medium text-gray-800 dark:text-gray-100">{loggedInUser}</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 italic">Spocistrator</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 italic">Faculty</div>
           </div>
           <ul>
             <li>
               <Link
-                to="/spoc/profile"
+                to="/admin/profile"
                 className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 Profile
