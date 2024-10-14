@@ -1,75 +1,102 @@
 import React, { useEffect, useState } from 'react';
+import { Box, Grid, Typography, Container } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { getDataFromBackend } from '../../api/api';
 
-function Mycourse() {
+const Mycourse = () => {
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await getDataFromBackend('/courses');
-        if (response && Array.isArray(response.courses)) {
-          setCourses(response.courses);
-        } else {
-          console.error('Unexpected response format:', response);
-        }
-      } catch (error) {
-        console.error('Error fetching courses:', error);
+        const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
+        const data = await getDataFromBackend('/student/my-courses', token);
+        setCourses(data.courses);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
       }
     };
 
     fetchCourses();
   }, []);
+
+  if (loading) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  if (error) {
+    return <Typography>Error: {error}</Typography>;
+  }
+
   return (
-    <div className="col-span-full xl:col-span-10 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
-      <header className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
-        <h2 className="font-semibold text-gray-800 dark:text-gray-100">Courses</h2>
-      </header>
-      <div className="p-3">
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full dark:text-gray-300">
-            {/* Table header */}
-            <thead className="text-xs uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 dark:bg-opacity-50 rounded-sm">
-              <tr>
-                <th className="p-2">
-                  <div className="font-semibold text-left">Course Name</div>
-                </th>
-                <th className="p-2">
-                  <div className="font-semibold text-left">Description</div>
-                </th>
-                <th className="p-2">
-                  <div className="font-semibold text-left">Universities</div>
-                </th>
-              </tr>
-            </thead>
-            {/* Table body */}
-            <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
-              {courses.map((course) => (
-                <tr key={course._id}>
-                  <td className="p-2">
-                    <div className="text-gray-800 dark:text-gray-100">{course.name}</div>
-                  </td>
-                  <td className="p-2">
-                    <div className="text-gray-800 dark:text-gray-100">{course.description}</div>
-                  </td>
-                  <td className="p-2">
-                    <div className="text-gray-800 dark:text-gray-100">
-                      {course.universities.map((university) => (
-                        <div key={university._id}>
-                          {university.long_name}
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <Container sx={{ mt: 4 }}>
+      <Grid container spacing={3}>
+        {courses.map((course) => (
+          <Grid item xs={12} sm={6} md={4} key={course._id}>
+            <Link to={`/course/${course._id}`} style={{ textDecoration: 'none' }}>
+              <Box
+                sx={{
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  overflow: 'hidden',
+                  height: '200px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    backgroundColor: '#3f51b5',
+                    color: '#ffffff',
+                    padding: 2,
+                    flex: 1,
+                  }}
+                >
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {course.name}
+                  </Typography>
+                  <Typography variant="body2">
+                    {course.description}
+                  </Typography>
+                  <Typography variant="body2">
+                    {course.faculty}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    backgroundColor: '#ffffff',
+                    padding: 2,
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {course.pendingAssignments > 0 ? (
+                    <Typography variant="body2" sx={{ color: '#f44336' }}>
+                      {course.pendingAssignments} assignments pending
+                    </Typography>
+                  ) : (
+                    <Typography variant="body2" sx={{ color: '#4caf50' }}>
+                      No pending assignments
+                    </Typography>
+                  )}
+                </Box>
+              </Box>
+            </Link>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
-}
+};
 
 export default Mycourse;

@@ -38,7 +38,7 @@ import StudentLogin from './pages/student/AuthPage';
 import StudentDashboard from './pages/student/StudentDashboard';
 import Meetings from './pages/student/Meeting';
 import Assessments from './pages/student/Assessments';
-import Mycourse from './pages/student/managecourse';
+import Mycourse from './pages/student/mycourse';
 
 
 
